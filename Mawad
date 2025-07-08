@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>mawadbenaa</title>
+<meta charset="UTF-8" />
+<style>
+body {
+padding:0px;
+margin:0px;
+background-color:#dfc;
+}
+.inps{
+width:100vw;
+height:35vh;
+display:flex;
+flex-direction:row;
+justify-content:center;
+
+}
+h1{
+width:90vw;
+height:7vh;
+font-size:50px;
+}
+.calc{
+width:25vw;
+height:5vh;
+font-size:50px;
+margin-left:10vw;
+color:white;
+background-color:#090;
+border:solid #0c0 5px;
+border-radius:25px;
+}
+.calc:hover {
+width:28vw;
+height:6vh;
+font-size:55px;
+margin-left:10vw;
+color:#090;
+background-color:white;
+border:solid #0c0 5px;
+border-radius:25px;
+}
+.in {
+width:55vw;
+font-size:50px;
+padding:10px;
+padding-left:15px;
+color:#666;
+background-color:#0f9;
+border:solid #0b6 5px;
+border-radius:20px;
+}
+.results{
+width:100vw;
+height:60vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+
+}
+p{
+
+width:80vw;
+height:7vh;
+font-size:50px;
+margin-left:5vw;
+}
+.sp {
+width:55vw;
+font-size:50px;
+padding:10px;
+padding-left:15px;
+color:#666;
+background-color:#0f9;
+border:solid #0b6 5px;
+border-radius:20px;
+}
+</style>
+</head>
+<body>
+<div class="inps" >
+<form>
+<h1>wd : <input class="in"  id="wd"  type="number" placeholder="wd" ></h1>
+<h1>Wssd : <input class="in"  id="wss"  type="number" placeholder="wssd" ></h1>
+<h1>Wsoaked : <input class="in"  id="wso"  type="number" placeholder="wsoaked" ></h1>
+<input type="reset" class="calc" value="تصفير"  >
+<input class="calc"  type="button" value="حساب"  onclick="mawad()" >
+</form>
+</div>
+<div class="results" >
+<p>Gsb : <span class="sp"  id="wgsb" ></span></p>
+<p>Gsa : <span class="sp"  id="wgsa" ></span></p>
+<p>Gssd : <span class="sp"  id="wgss" ></span></p>
+<p>W : <span class="sp"  id="w" ></span> <span class="sp" > g</span></p>
+<p>W[%] : <span class="sp"  id="ww" ></span><span class="sp" >%</span></p>
+</div>
+<script>
+var wd = document.getElementById("wd");
+var wss = document.getElementById("wss");
+var wso = document.getElementById("wso");
+var wgsb = document.getElementById("wgsb");
+var wgsa = document.getElementById("wgsa");
+var wgss= document.getElementById("wgss");
+var w = document.getElementById("w");
+var ww = document.getElementById("ww");
+function mawad(){
+wgsb.innerHTML = wd.value / (wss.value-wso.value);
+wgsa.innerHTML = wd.value / (wd.value-wso.value);
+wgss.innerHTML = wss.value / (wss.value-wso.value);
+w.innerHTML = wss.value - wd.value;
+ww.innerHTML = w.innerHTML*100/wd.value;
+}
+</script>
+
+
+</body>
+</html>
