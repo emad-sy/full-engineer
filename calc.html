@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+p{
+border:dotted;
+
+}
+h3{
+color:rgb(251, 255, 0);
+
+}
+body{
+    background-color: #222;
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.cont{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.conta{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+form:hover>:not(:hover){
+    filter: blur(2px);
+}
+.inp{
+    height: 10vh;
+    width: 50vw;
+    background-color: #888;
+    margin: 1vh;
+    font-size: 50px;
+    text-align: center;
+    border: #ccc solid 10px;
+    border-radius: 50px;
+}
+@keyframes scale{
+    0%{height: 10vh;width: 50vw;}
+    100%{height: 12vh;width: 55vw;}
+}
+.inp:hover{
+    animation-name: scale;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+.bot{
+    width: 30vw;
+    height: 8vh;
+    font-size: 30px;
+    color: darkgreen;
+    background-color: rgb(124, 158, 55);
+    border: greenyellow solid 10px;
+    text-align: center;
+    border-radius: 40px;
+}
+@keyframes scalebot{
+    0%{height: 8vh;width: 30vw;font-size: 30px;}
+    100%{height: 10vh;width: 35vw;font-size: 35px;}
+}
+.bot:hover{
+    animation-name: scalebot;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+@keyframes color{
+    0%{color: rgb(255, 0, 0);}
+    100%{color:#aaa;}
+}
+.resul{
+    animation-duration: 1s;
+    height: 10vh;
+    width: 50vw;
+    margin: 1vh;
+    font-size: 50px;
+    text-align: center;
+    color:#aaa;
+    }
+    .h{
+    color:#aaa;
+    height: 12vh;
+    width: 50vw;
+    margin-bottom: 1vh;
+    margin-top: 1px;
+    font-size: 50px;
+    text-align: center;
+    filter: drop-shadow(0px 0px 10px rgb(180, 0, 0))
+    }
+</style>
+</head>
+<body>
+    <div class="cont">
+        <h1 class="h">آلة حاسبة</h1>
+        <form>
+            <input id="numa" type="number" class="inp dis" placeholder="num 1">
+            <input id="pros" list="li" type="text" class="inp" placeholder="prosses">
+            <datalist id="li">
+            <option value="+"></option>
+            <option value="-"></option>
+            <option value="*"></option>
+            <option value="/"></option>
+            <option value="square"></option>
+            <option value="pow"></option>
+            </datalist>
+            <input id="numb" type="number" class="inp" placeholder="num 2">
+            <button type="button" id="calc" onclick="calculator()" class="bot">أحسب</button>
+        </form>
+        <div class="conta">
+        <h1 id="resul" class="resul"></h1>
+        <h1 id="result" class="resul"></h1>
+        <h3 class="resul">مع تحيات المصمم ع.م</h3>
+        </div>
+    </div>
+
+<script>
+    //window.alert("to use square enter word square | to use pow enter pow | to use division enter / | to use aldhrb enter * | to use altarh enter - | to use sum enter +")
+
+    var a = document.getElementById("numa")
+    var z = document.getElementById("pros")
+    var b = document.getElementById("numb") 
+    var result = document.getElementById("result") 
+    var resul = document.getElementById("resul")
+    var calc = document.getElementById("calc")
+    /* if (z.innerHTML=="square") {
+        a.style.display="none"
+    } */
+    calc.onclick=function(){
+    result.style.animationName="color"
+    resul.style.animationName="color"
+    if (z.value=="+")
+    {
+    let ww = Number(a.value)+Number(b.value)
+    result.innerHTML =`النتيجة :${ww} `
+    resul.innerHTML ="العملية الحسابية هي : "+z.value+"جمع"
+    }
+    else if(z.value=="-")
+    {
+    let w = +a.value- +b.value+":النتيجة"
+    result.innerHTML =`النتيجة :${w} `
+    resul.innerHTML = "العملية الحسابية هي : "+z.value+"طرح"
+    }
+    else if(z.value=="*")
+    {
+    let w = +a.value* +b.value+":النتيجة"
+    result.innerHTML =`النتيجة :${w} `
+    resul.innerHTML += "العملية الحسابية هي : "+z.value+"ضرب"
+    }
+    else if(z.value=="/")
+    {
+    let w = +a.value +b.value+":النتيجة"  
+    result.innerHTML =`النتيجة :${w} `
+    resul.innerHTML = "العملية الحسابية هي : "+z.value+"قسمة"
+
+    }
+    else if(z.value=="pow")
+    {
+    let w = a.value**b.value+":النتيجة"
+    result.innerHTML =`النتيجة :${w} `
+    resul.innerHTML = "العملية الحسابية هي : "+z.value+"قوة"
+
+    }
+    else if(z.value=="square")
+    {
+
+    let w = Math.sqrt(a.value)+":النتيجة"   
+    result.innerHTML =`النتيجة :${w} `
+    resul.innerHTML = ("العملية الحسابية هي : "+z.value+"جضر تربيعي")
+
+    }
+    else{
+        result.innerHTML = "0"
+        resul.innerHTML = "خطا في العملية الحسابية"
+    }
+
+    }
+    </script>
+    
+</body>
+</html>
