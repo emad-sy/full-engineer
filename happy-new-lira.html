@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Happy New Lira</title>
+</head>
+<style>
+*{
+padding:0px;
+margin:0px;
+}
+body {
+background-color:#cfc;
+}
+section {
+margin-top:2vh;
+min-height:100vh;
+}
+label {
+font-size:100px;
+width:100vw;
+color:#242;
+margin-left:5vw;
+}
+.cona{
+width:99vw;
+margin-top:10vh;
+}
+.oldtonew{
+width:98vw;
+margin-left:1vw;
+display:flex;
+flex-direction:row;
+justify-content:space-around;
+margin-top:2vh;
+}
+input{
+width:25vw;
+height:5vh;
+font-size:30px;
+color:gray;
+padding:10px;
+}
+.old-input{
+background-color:#a33;
+color:#cff;
+width:40vw;
+font-size:50px;
+text-align:center;
+}
+.new-input{
+background-color:#3a3;
+color:#dfd;
+width:40vw;
+font-size:50px;
+text-align:center;
+}
+.output{
+width:40vw;
+font-size:50px;
+text-align:center;
+display:flex;
+align-items:center;
+justify-content:center;
+min-height:7vh;
+}
+.old-output{
+background-color:#a33;
+color:#cff;
+}
+.new-output{
+background-color:#3a3;
+color:#dfd;
+}
+.conb{
+margin-top:10vh;
+}
+.buta {
+width:35vw;
+height:6vh;
+background-color:#afa;
+font-size:50px;
+margin-top:3vh;
+margin-left:35vw;
+border:15px solid;
+border-radius:20px;
+border-top-color:#383;
+border-left-color:#733;
+border-bottom-color:#733;
+border-right-color:#383;
+cursor:pointer;
+}
+.butb {
+width:35vw;
+height:6vh;
+background-color:#afa;
+font-size:50px;
+margin-top:3vh;
+margin-left:35vw;
+border:15px solid;
+border-radius:20px;
+border-bottom-color:#383;
+border-right-color:#733;
+border-top-color:#733;
+border-left-color:#383;
+cursor:pointer;
+}
+</style>
+<body>
+<section>
+	<label>Happy New Lira</label>
+	<div class="cona">
+		<div class="oldtonew">
+			<input class="old-input" type="number" id="old-lira" placeholder="المبلغ القديم">
+			<div class="output new-output" id="new-output"></div>
+		</div>
+		<button class="buta" type="button" onclick="convertOldToNew()">تحويل↪️</button>
+	</div>
+	<div class="conb">
+		<div class="oldtonew">
+			<input class="new-input" type="number" id="new-lira" placeholder="المبلغ الجديد">
+			<div class="output old-output" id="old-output"></div>
+		</div>
+		<button class="butb" type="button" onclick="convertNewToOld()">تحويل↪️</button>
+	</div>
+</section>
+<script>
+function convertOldToNew() {
+    const oldLiraInput = document.getElementById("old-lira");
+    const newOutput = document.getElementById("new-output");
+    
+    const oldValue = parseFloat(oldLiraInput.value);
+    if (!isNaN(oldValue)) {
+        const newValue = oldValue / 100;
+        newOutput.textContent = newValue.toFixed(2);
+    } else {
+        newOutput.textContent = "0";
+    }
+}
+
+function convertNewToOld() {
+    const newLiraInput = document.getElementById("new-lira");
+    const oldOutput = document.getElementById("old-output");
+    
+    const newValue = parseFloat(newLiraInput.value);
+    if (!isNaN(newValue)) {
+        const oldValue = newValue * 100;
+        oldOutput.textContent = oldValue.toFixed(2);
+    } else {
+        oldOutput.textContent = "0";
+    }
+}
+</script>
+</body>
+</html>
