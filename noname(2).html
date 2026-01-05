@@ -1,0 +1,159 @@
+<script type="text/javascript">
+/**
+ * إغلاق نموذج Google Forms بعد 36 رد
+ * إعدادات: إبراهيم التوم
+ */
+function closeFormAfterLimit() {
+  // ========== ⚙️ إعدادات إبراهيم ==========
+  var MAX_RESPONSES = 36;          // 36 رد كحد أقصى
+  var CLOSE_MESSAGE = "✅ تم استقبال العدد الكافي من الردود (36 رد).\nشكراً لمشاركتكم في استبيان الهيئة الطلابية!";
+  var NOTIFICATION_EMAIL = "ibrahimaltoom79@gmail.com"; // بريد إبراهيم للإشعار
+  // ========================================
+  
+  var form = FormApp.getActiveForm();
+  var responses = form.getResponses();
+  var responseCount = responses.length;
+  
+  // 📊 طباعة معلومات للمراقبة
+  console.log("📊 عدد الردود الحالي: " + responseCount + " من " + MAX_RESPONSES);
+  console.log("🎯 المطلوب: 36 رد | المتبقي: " + (MAX_RESPONSES - responseCount));
+  
+  // 🔒 التحقق واتخاذ الإجراء
+  if (responseCount >= MAX_RESPONSES) {
+    if (form.isAcceptingResponses()) {
+      form.setAcceptingResponses(false);
+      console.log("✅ تم إغلاق النموذج تلقائياً عند 36 رد");
+      
+      // 💌 إرسال إشعار بالبريد لإبراهيم
+      if (NOTIFICATION_EMAIL) {
+        try {
+          MailApp.sendEmail({
+            to: NOTIFICATION_EMAIL,
+            subject: "🔔 تم إغلاق نموذج الهيئة الطلابية (36 رد)",
+            body: "تفاصيل الإغلاق:\n" +
+                  "📝 اسم النموذج: " + form.getTitle() + 
+                  "\n📥 عدد الردود: " + responseCount + 
+                  "\n🎯 الحد الأقصى: " + MAX_RESPONSES +
+                  "\n🕐 وقت الإغلاق: " + new Date() +
+                  "\n🔗 رابط النموذج: " + form.getEditUrl() +
+                  "\n\nتم إغلاق النموذج تلقائياً بواسطة Google Apps Script"
+          });
+          console.log("📧 تم إرسال إشعار لإبراهيم");
+        } catch(e) {
+          console.log("⚠️ لم يتم إرسال الإشعار: " + e.toString());
+        }
+      }
+    }
+  } else {
+    var remaining = MAX_RESPONSES - responseCount;
+    console.log("⏳ متبقي: " + remaining + " رد للوصول إلى 36");
+    
+    // إشعار عند الاقتراب من الحد
+    if (remaining <= 5) {
+      console.log("⚠️ تحذير: متبقي " + remaining + " رد فقط!");
+    }
+  }
+}
+
+/**
+ * ⏰ وظيفة لفحص تلقائي كل 30 دقيقة
+ */
+function setupAutoCheck() {
+  // حذف أي محركات قديمة
+  var triggers = ScriptApp.getProjectTriggers();
+  triggers.forEach(function(trigger) {
+    ScriptApp.deleteTrigger(trigger);
+  });
+  
+  // إنشاء محرك جديد (كل 30 دقيقة)
+  ScriptApp.newTrigger('closeFormAfterLimit')
+    .timeBased()
+    .everyMinutes(30)  // فحص كل نصف ساعة
+    .create();
+  
+  console.log("✅ تم تفعيل الفحص التلقائي كل 30 دقيقة");
+  console.log("🎯 سيتم إغلاق النموذج عند الوصول إلى 36 رد");
+}
+
+/**
+ * ⏰ وظيفة لفحص تلقائي كل 10 دقائق (للفحص الدقيق)
+ */
+function setupFrequentCheck() {
+  var triggers = ScriptApp.getProjectTriggers();
+  triggers.forEach(function(trigger) {
+    ScriptApp.deleteTrigger(trigger);
+  });
+  
+  ScriptApp.newTrigger('closeFormAfterLimit')
+    .timeBased()
+    .everyMinutes(10)  // فحص كل 10 دقائق
+    .create();
+  
+  console.log("✅ تم تفعيل الفحص التلقائي كل 10 دقائق");
+}
+
+/**
+ * 🛑 إيقاف الفحص التلقائي
+ */
+function stopAutoCheck() {
+  var triggers = ScriptApp.getProjectTriggers();
+  triggers.forEach(function(trigger) {
+    ScriptApp.deleteTrigger(trigger);
+  });
+  console.log("🛑 تم إيقاف الفحص التلقائي");
+}
+
+/**
+ * 🔓 إعادة فتح النموذج يدوياً
+ */
+function reopenFormManually() {
+  var form = FormApp.getActiveForm();
+  form.setAcceptingResponses(true);
+  console.log("🔓 تم إعادة فتح النموذج يدوياً");
+  console.log("⚠️ سيتم إغلاقه تلقائياً عند 36 رد");
+}
+
+/**
+ * 📊 عرض إحصائيات النموذج
+ */
+function showFormStats() {
+  var form = FormApp.getActiveForm();
+  var responses = form.getResponses();
+  var isOpen = form.isAcceptingResponses();
+  var remaining = 36 - responses.length;
+  
+  var stats = {
+    "📝 اسم النموذج": form.getTitle(),
+    "🔓 الحالة": isOpen ? "✅ مفتوح" : "❌ مغلق",
+    "📥 عدد الردود": responses.length + "/36",
+    "🎯 المتبقي للوصول لـ36": remaining > 0 ? remaining + " رد" : "✅ تم الوصول",
+    "🕐 أحدث رد": responses.length > 0 ? responses[responses.length-1].getTimestamp() : "لا يوجد",
+    "⏰ وقت الفحص الأخير": new Date()
+  };
+  
+  console.log("📊 إحصائيات نموذج الهيئة الطلابية:");
+  console.log("════════════════════════════════════");
+  for (var key in stats) {
+    console.log(key + ": " + stats[key]);
+  }
+  console.log("════════════════════════════════════");
+  
+  return stats;
+}
+
+/**
+ * 🚀 تشغيل فحص فوري + تفعيل تلقائي
+ */
+function initializeFormLimiter() {
+  console.log("🚀 بدء إعداد محدد النموذج لـ 36 رد");
+  console.log("📧 سيتم الإشعار على: ibrahimaltoom79@gmail.com");
+  
+  // فحص فوري
+  closeFormAfterLimit();
+  
+  // تفعيل الفحص التلقائي كل 30 دقيقة
+  setupAutoCheck();
+  
+  console.log("✅ تم الإعداد بنجاح!");
+  console.log("🎯 النموذج سينغلق تلقائياً عند 36 رد");
+}</script>
